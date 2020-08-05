@@ -1,16 +1,12 @@
 import React from 'react';
 
+import Routes from './routes';
+
 import './assets/styles/global.css';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello World</h1>
-
-      <button type="button">
-        Clica em mim
-      </button>
-    </div>
+    <Routes />
   );
 }
 
