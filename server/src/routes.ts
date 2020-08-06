@@ -1,67 +1,17 @@
 import express from 'express';
-import db from './database/connection';
-import convertHourToMinutes from './utils/convertHourToMinutes';
+import ClassesController from './controllers/ClassesController';
+import ConnectionsController from './controllers/ConnectionsController';
 
 const routes = express.Router();
 
-interface ScheduleItem {
-    week_day: number;
-    from: string;
-    to: string;
-}
+const classesController = new ClassesController();
+const connectionsController = new ConnectionsController();
 
-routes.post('/classes', async (req, res) => {
-    const { 
-        name,
-        avatar,
-        whatsapp,
-        bio,
-        subject,
-        cost,
-        schedule
-     } = req.body;
+routes.get('/classes', classesController.index);
+routes.post('/classes', classesController.create);
 
-    const trx = await db.transaction();
+routes.post('/connections', connectionsController.create);
+routes.get('/connections', connectionsController.index);
 
-    try {
-        const insertedUsersIds = await trx('users').insert({
-            name,
-            avatar,
-            whatsapp,
-            bio
-        })
-    
-        const user_id = insertedUsersIds[0];
-    
-        const insertedClassesId = await trx('classes').insert({
-            subject,
-            cost,
-            user_id
-        })
-    
-        const class_id = insertedClassesId[0];
-    
-        const classSchedule = schedule.map((scheduleItem: ScheduleItem) => {
-            return {
-                class_id,
-                week_day: scheduleItem.week_day,
-                from: convertHourToMinutes(scheduleItem.from),
-                to: convertHourToMinutes(scheduleItem.to)
-            }
-        });
-    
-        await trx('class_schedule').insert(classSchedule);
-    
-        await trx.commit();
-    
-        return res.status(201).send();
-    } catch(err) {
-        await trx.rollback();
-
-        return res.status(400).json({
-            error: 'Unexpected error while creating new class'
-        })
-    }
-})
 
 export default routes;
