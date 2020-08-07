@@ -2,33 +2,55 @@ import React from 'react';
 
 import whatsappIcon from '../../assets/images/icons/whatsapp.svg'
 
+import api from '../../services/api';
+
 import './styles.css';
 
-function TeacherItem() {
+export interface Teacher {
+    id: number,
+    subject: string,
+    cost: number,
+    name: string,
+    avatar: string,
+    whatsapp: string,
+    bio: string
+}
+
+
+interface TeacherProps {
+    teacher: Teacher
+}
+
+const TeacherItem: React.FC<TeacherProps> = ({teacher}) => {
+    function createNewConnection() {
+        api.post('connections', {
+            user_id: teacher.id
+        })
+    }
+
     return (
         <article className="teacher-item">
             <header>
-                <img src="https://avatars3.githubusercontent.com/u/49599535?s=460&u=3c645edcebc1b3ffaaa66ecc841a4b0cf755582a&v=4" alt="Lucas Del Puerto"/>
+                <img src={teacher.avatar} alt={teacher.name}/>
                 <div>
-                    <strong>Lucas Del Puerto Garcia</strong>
-                    <span>Programação</span>
+                    <strong>{teacher.name}</strong>
+                    <span>{teacher.subject}</span>
                 </div>
             </header>
 
-            <p>
-                Fanático por programação backend e teste de algoritmos!
-                <br/><br/>
-                Não é dificil ver fumaça saindo de sua cabeça enquanto soluciona problemas.
-            </p>
+            <p>{teacher.bio}</p>
 
             <footer>
                 <p>Preco/hora 
-                    <strong>R$ 80,00</strong>
+                <strong>R$ {teacher.cost}</strong>
                 </p>
-                <button type="button">
+                <a 
+                target="_blank" 
+                onClick={createNewConnection} 
+                href={`https://wa.me/${teacher.whatsapp}`}>
                     <img src={whatsappIcon} alt="Whatsapp"/>
                     Entar em contato
-                </button>
+                </a>
             </footer>
         </article>
     )
