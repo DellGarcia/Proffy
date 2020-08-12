@@ -29,7 +29,7 @@ function ClassComponent() {
 
                 <View style={styles.cardFooter}>
                     <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-                        <Text>Preco/hora{'  '}</Text>
+                        <Text style={styles.cost}>Preco/hora{'  '}</Text>
                         <Text>R$ 20,00</Text>
                     </View>
 
@@ -39,8 +39,8 @@ function ClassComponent() {
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.contact}>
-                            <Image source={whatsapp}/>
-                            <Text>Entrar em contato</Text>
+                            <Image source={whatsapp} style={{marginRight: 20}}/>
+                            <Text style={styles.button}>Entrar em contato</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

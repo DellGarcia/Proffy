@@ -58,12 +58,25 @@ const styles = StyleSheet.create({
     contact: {
         flexDirection: 'row',
         backgroundColor: '#04D361',
-        width: '100%',
+        width: '95%',
         height: 55,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 8,
         marginLeft: 10
+    },
+
+    cost: {
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 14,
+        lineHeight: 25
+    },
+
+    button: {
+        color: '#FFF',
+        fontFamily: 'Archivo_700Bold',
+        fontSize: 16,
+        lineHeight: 26
     }
 });
 
